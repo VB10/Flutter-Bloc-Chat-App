@@ -1,6 +1,7 @@
 import 'package:chatb/Constant/Constant.dart';
 import 'package:chatb/Constant/circleUsersList.dart';
 import 'package:chatb/Pages/ChatPage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -19,6 +20,14 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: appBarItems(),
+        actions: [
+          IconButton(
+            onPressed: () {
+              FirebaseAuth.instance.signOut();
+            },
+            icon: Icon(Icons.exit_to_app),
+          ),
+        ],
       ),
       body: Column(
         children: [

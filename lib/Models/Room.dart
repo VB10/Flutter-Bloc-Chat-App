@@ -1,5 +1,5 @@
 import 'package:chatb/Models/Message.dart';
-import 'package:chatb/Models/User.dart';
+import 'package:chatb/Models/Users.dart';
 
 class Room {
   String? key;
@@ -7,9 +7,9 @@ class Room {
   String? image;
   DateTime? time;
   String? description;
-  List<User>? usersList;
+  List<Users>? usersList;
   List<Message>? messagesList;
-  List<User>? adminUserList;
+  List<Users>? adminUserList;
   int? isNewMessage;
   Room({
     this.key,

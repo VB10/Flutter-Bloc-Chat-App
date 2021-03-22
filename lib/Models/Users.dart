@@ -1,10 +1,10 @@
-class User {
+class Users {
   String? key;
   String? name;
   String? image;
   bool? isOnline;
   List<String>? friendList;
-  User({
+  Users({
     this.key,
     this.name,
     this.image,

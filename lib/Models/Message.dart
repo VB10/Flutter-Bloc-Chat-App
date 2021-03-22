@@ -1,4 +1,4 @@
-import 'package:chatb/Models/User.dart';
+import 'package:chatb/Models/Users.dart';
 
 class Message {
   String? key;
@@ -6,7 +6,7 @@ class Message {
   DateTime? time;
   String? photo;
   bool? isSeen;
-  User from;
+  Users from;
   Message({
     this.key,
     required this.data,

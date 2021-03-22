@@ -1,5 +1,8 @@
+import 'package:chatb/Bloc/AuthCubitState.dart';
 import 'package:chatb/Constant/Constant.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -8,10 +11,42 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
+  var tfemail = TextEditingController();
+  var tfpass = TextEditingController();
+  var tfname = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    return BlocConsumer<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state is AuthError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Auth Failed",
+                  style: Theme.of(context).textTheme.headline5!.copyWith(color: Colors.red)),
+            ),
+          );
+        }
+      },
+      builder: (context, state) {
+        if (state is AuthIsLoading) {
+          return Center(child: CircularProgressIndicator());
+        }
+        if (state is AuthInital) {
+          return signUpScreen(size, context, tfname, tfemail, tfpass);
+        }
+        if (state is AuthIsDone) {
+          print(state.cevap);
+          return signUpScreen(size, context, tfname, tfemail, tfpass);
+        } else {
+          return signUpScreen(size, context, tfname, tfemail, tfpass);
+        }
+      },
+    );
+  }
+
+  Widget signUpScreen(Size size, context, tfname, tfemail, tfpass) {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Column(
@@ -33,10 +68,10 @@ class _SignUpPageState extends State<SignUpPage> {
                         padding: EdgeInsets.symmetric(horizontal: size.width / 8),
                         child: Column(
                           children: [
-                            nameTextField(),
-                            emailTextField(),
-                            passwordTextField(),
-                            loginButton(size),
+                            nameTextField(tfname),
+                            emailTextField(tfemail),
+                            passwordTextField(tfpass),
+                            loginButton(size, context, tfname, tfemail, tfpass),
                             accountCheckText()
                           ],
                         ),
@@ -87,12 +122,14 @@ Padding accountCheckText() {
   );
 }
 
-SizedBox loginButton(Size size) {
+SizedBox loginButton(Size size, context, tfname, tfemail, tfpass) {
   return SizedBox(
     width: size.width / 1.1,
     height: size.height / 14,
     child: ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        BlocProvider.of<AuthCubit>(context).signUpAndEmit(tfemail.text, tfpass.text, tfname.text);
+      },
       child: Text(
         "SIGN UP",
         style: TextStyle(
@@ -110,12 +147,13 @@ SizedBox loginButton(Size size) {
   );
 }
 
-Padding passwordTextField() {
+Padding passwordTextField(tfpass) {
   return Padding(
     padding: const EdgeInsets.only(
       bottom: 48.0,
     ),
     child: TextFormField(
+      controller: tfpass,
       obscureText: true,
       style: TextStyle(
         fontSize: 20,
@@ -144,10 +182,11 @@ Padding passwordTextField() {
   );
 }
 
-Padding emailTextField() {
+Padding emailTextField(tfemail) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 16.0),
     child: TextFormField(
+      controller: tfemail,
       style: TextStyle(
         fontSize: 20,
         color: Colors.white,
@@ -175,10 +214,11 @@ Padding emailTextField() {
   );
 }
 
-Padding nameTextField() {
+Padding nameTextField(tfname) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 16.0),
     child: TextFormField(
+      controller: tfname,
       style: TextStyle(
         fontSize: 20,
         color: Colors.white,
