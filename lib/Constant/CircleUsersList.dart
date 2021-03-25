@@ -27,7 +27,7 @@ class _CircleUsersListState extends State<CircleUsersList> {
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text(
-                    "Burak",
+                    "User",
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1!
@@ -44,8 +44,7 @@ class _CircleUsersListState extends State<CircleUsersList> {
 }
 
 CircleAvatar profileCircle(double size) {
-  var url =
-      "https://avatars.githubusercontent.com/u/70351342?s=460&u=e67134a90ef86bb49462916d758f6beaa19ec78b&v=4";
+  var url = "https://i.stack.imgur.com/l60Hf.png";
   return CircleAvatar(
     radius: size,
     backgroundImage: NetworkImage(url),
